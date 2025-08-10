@@ -191,6 +191,21 @@ export async function deleteBooking(id) {
   return true;
 }
 
+// Hapus banyak booking sekaligus
+export async function deleteBookingsBulk(ids) {
+  if (!Array.isArray(ids) || ids.length === 0) return true;
+  const { error } = await supabase
+    .from('bookings')
+    .delete()
+    .in('id', ids);
+
+  if (error) {
+    console.error('Error bulk deleting bookings:', error);
+    throw error;
+  }
+  return true;
+}
+
 // ========== EMPLOYEE OPERATIONS ==========
 export async function getEmployees() {
   const { data, error } = await supabase
